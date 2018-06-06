@@ -4031,12 +4031,57 @@ b, strong {
     margin-bottom: 6px; }
     .exampleSlider__item {
       margin: 0 9px;
-      opacity: .11; }
+      opacity: .2;
+      -webkit-transition: all .5s;
+      -o-transition: all .5s;
+      transition: all .5s; }
       .exampleSlider__item img {
         display: block;
         width: 100%; }
+    .exampleSlider__text {
+      position: absolute;
+      bottom: 0;
+      text-align: center;
+      width: 100%;
+      left: 0;
+      padding: 25px;
+      z-index: 2;
+      font-family: Pusia;
+      font-size: 24px;
+      font-weight: normal;
+      color: #fff;
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#060606), to(rgba(78, 48, 51, 0)));
+      background-image: -webkit-linear-gradient(bottom, #060606 0%, rgba(78, 48, 51, 0) 100%);
+      background-image: -o-linear-gradient(bottom, #060606 0%, rgba(78, 48, 51, 0) 100%);
+      background-image: linear-gradient(to top, #060606 0%, rgba(78, 48, 51, 0) 100%);
+      -webkit-transition: all .4;
+      -o-transition: all .4;
+      transition: all .4;
+      opacity: 0; }
     .exampleSlider .slick-current {
-      opacity: 1; }
+      opacity: 1;
+      position: relative; }
+      .exampleSlider .slick-current:before, .exampleSlider .slick-current:after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        height: 100%;
+        width: 30%; }
+      .exampleSlider .slick-current:before {
+        left: 0;
+        background-image: -webkit-gradient(linear, right top, left top, from(transparent), to(rgba(0, 0, 0, 0.66)));
+        background-image: -webkit-linear-gradient(right, transparent 0%, rgba(0, 0, 0, 0.66) 100%);
+        background-image: -o-linear-gradient(right, transparent 0%, rgba(0, 0, 0, 0.66) 100%);
+        background-image: linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.66) 100%); }
+      .exampleSlider .slick-current:after {
+        right: 0;
+        background-image: -webkit-gradient(linear, left top, right top, from(transparent), to(rgba(0, 0, 0, 0.66)));
+        background-image: -webkit-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.66) 100%);
+        background-image: -o-linear-gradient(left, transparent 0%, rgba(0, 0, 0, 0.66) 100%);
+        background-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.66) 100%); }
+      .exampleSlider .slick-current .exampleSlider__text {
+        opacity: 1; }
     .exampleSlider .slick-list {
       overflow: initial;
       -webkit-box-sizing: content-box;
@@ -4059,14 +4104,14 @@ b, strong {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 40%;
+      width: 30%;
       z-index: 10;
       border: 0;
       background-color: transparent;
       font-size: 0;
-      -webkit-transition: all 0.3s;
-      -o-transition: all 0.3s;
-      transition: all 0.3s;
+      -webkit-transition: all 0.4s;
+      -o-transition: all 0.4s;
+      transition: all 0.4s;
       cursor: pointer; }
       .exampleSlider .slick-arrow:before {
         content: '';
@@ -4079,9 +4124,12 @@ b, strong {
         background-repeat: no-repeat;
         background-position: center;
         cursor: pointer;
-        display: none; }
+        opacity: 0;
+        -webkit-transition: all 0.3s;
+        -o-transition: all 0.3s;
+        transition: all 0.3s; }
       .exampleSlider .slick-arrow:hover:before {
-        display: block; }
+        opacity: 1; }
     .exampleSlider .slick-next {
       right: 0; }
       .exampleSlider .slick-next:before {
@@ -4131,7 +4179,23 @@ b, strong {
         margin-top: 2px; }
       .example__dateDescr {
         padding: 13px 22px;
-        font-size: 14px; } }
+        font-size: 14px; }
+    .exampleSlider__text {
+      font-size: 20px; } }
+  @media (max-width: 767px) {
+    .example__date:first-child {
+      margin-right: 0; }
+    .exampleSlider__text {
+      padding: 15px;
+      font-size: 15px; }
+    .exampleSlider .slick-arrow {
+      width: 30px; }
+      .exampleSlider .slick-arrow:before {
+        background-size: 20px; }
+    .exampleSlider .slick-next:before {
+      right: 10px; }
+    .exampleSlider .slick-prev:before {
+      left: 10px; } }
 
 .chart {
   text-align: center;

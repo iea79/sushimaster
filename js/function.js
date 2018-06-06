@@ -273,32 +273,46 @@ function calaculate() {
         // setCurrencyInput();
         if (currency == "P") {
             sliderInit(10000000, 60000, 60000000, 1000);
+            inputCurrent.val(thousandSeparator(sliderValue))
         }
         if (currency == "$") {
             sliderInit(100000, 1000, 1000000, 100);
+            inputCurrent.val(thousandSeparator(sliderValue))
         }
         if (currency == "€") {
             sliderInit(100000, 1000, 1000000, 100);
+            inputCurrent.val(thousandSeparator(sliderValue))
         }
-        setCurrency();
+        // console.log(String(sliderValue))
+        // currencyValue = String(sliderValue);
+        setInvestedAmount(thousandSeparator(sliderValue));
+        setCurrencyInput();
+        // setCurrency();
 	});
-
-    sliderInit(10000000, 60000, 60000000, 1000);
-
-    inputCurrent.priceFormat();
 
     inputCurrent.on('keyup', function() {
         var keyupVal = $(this).val().replace(/\s+/g,'');
         var keyupValClean = keyupVal.replace(/[.,\/#!₽$%\^&\*;:{}=\-_`~()]/g,"");
-        // console.log(keyupValClean);
-        if (sliderValue >= sliderMin || sliderValue <= sliderMax) {
+        console.log(keyupValClean);
+        console.log(sliderMin);
+        console.log(sliderMax);
+        if (keyupValClean >= sliderMin && keyupValClean <= sliderMax) {
             sliderPrice.slider( 'value', keyupValClean);
+            inputCurrent.val( thousandSeparator(sliderPrice.slider( 'value' )));
+            currencyValue =  thousandSeparator(sliderPrice.slider( 'value' ));
+        }
+        if (keyupValClean < sliderMin) {
+            sliderPrice.slider( 'value', sliderMin);
+            currencyValue =  thousandSeparator(keyupValClean);
+        }
+        if (keyupValClean > sliderMax) {
+            sliderPrice.slider( 'value', sliderMax);
+            currencyValue =  thousandSeparator(keyupValClean);
         }
         setInvestedAmount(currencyValue);
-        setCurrency();
-    });
+        setCurrencyInput();
 
-    setCurrency();
+    });
 
     // console.log(currencyValue);
 
@@ -308,33 +322,32 @@ function calaculate() {
         sliderMax = maxCurrent;
         sliderStep = stepCurrent;
 
-    	sliderPrice.slider({
-    		range: "min",
-    		value: valCurrent,
-    		min: minCurrent,
-    		max: maxCurrent,
+        sliderPrice.slider({
+            range: "min",
+            value: valCurrent,
+            min: minCurrent,
+            max: maxCurrent,
             step: stepCurrent,
-    		slide: function( event, ui ) {
-    			inputCurrent.val( thousandSeparator(ui.value));
-                currencyValue = thousandSeparator(ui.value);
-                setInvestedAmount(currencyValue);
-                // setCurrency();
-    		}
-    	});
-    }
-
-    function setCurrency() {
-        console.log(sliderValue)
-        console.log(sliderMin)
-        console.log(sliderMax)
-        console.log(sliderStep);
-
-        inputCurrent.val( thousandSeparator(sliderPrice.slider( 'value' )));
-        currencyValue =  thousandSeparator(sliderPrice.slider( 'value' ));
-
+            slide: function( event, ui ) {
+                if (ui.value >= minCurrent || ui.value <= maxCurrent) {                
+                    inputCurrent.val( thousandSeparator(ui.value));
+                    currencyValue = thousandSeparator(ui.value);
+                    setInvestedAmount(currencyValue);
+                    setCurrencyInput();
+                }
+            }
+        });
+        inputCurrent.val( thousandSeparator(valCurrent));
+        currencyValue = thousandSeparator(valCurrent);
+        setInvestedAmount(currencyValue);
         setCurrencyInput();
-        // sliderInit();
     }
+
+    sliderInit(10000000, 60000, 60000000, 1000);
+
+    inputCurrent.priceFormat();
+
+    inputCurrent.val(thousandSeparator(sliderValue))
 
     // Выводим значения в таблицу
     function setCurrencyInput() {

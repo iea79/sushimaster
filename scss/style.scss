@@ -1333,24 +1333,60 @@ b, strong {
 		margin-bottom: 6px;
 		&__item {
 			margin: 0 9px;
-			opacity: .11;
+			opacity: .2;
+			transition: all .5s;
 			img {
 				display: block;
 				width: 100%;
 			}
 		}
 		&__text {
+			position: absolute;
+			bottom: 0;
+			text-align: center;
+			width: 100%;
+			left: 0;
+			padding: 25px;
+			z-index: 2;
+			font-family: Pusia;
+			font-size: 24px;
+			font-weight: normal;
+			color: #fff;
+			background-image: linear-gradient(to top, #060606 0%, rgba(78, 48, 51, 0) 100%);
+			transition: all .4;
+			opacity: 0;
 		}
 		.slick {
 			&-current {
 				opacity: 1;
+				position: relative;
 				// margin: 0;
+				&:before,&:after {
+					content: '';
+					position: absolute;
+					top: 0;
+					bottom: 0;
+					height: 100%;
+					width: 30%;
+				}
+				&:before {
+					left: 0;
+					background-image: linear-gradient(to left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.66) 100%);
+				}
+				&:after {
+					right: 0;
+					background-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.66) 100%);
+				}
+				.exampleSlider__text {
+					opacity: 1;
+				}
 			}
 			&-list {
 				overflow: initial;
 				box-sizing: content-box;
 				margin-left: -9px;
 				margin-right: -9px;
+				// background-color: rgba(#000, 0.8);
 				&:before,&:after {
 					content: '';
 					position: absolute;
@@ -1371,12 +1407,12 @@ b, strong {
 				position: absolute;
 				top: 0;
 				bottom: 0;
-				width: 40%;
+				width: 30%;
 				z-index: 10;
 				border: 0;
 				background-color: transparent;
 				font-size: 0;
-				transition: all 0.3s;
+				transition: all 0.4s;
 				cursor: pointer;
 				&:before {
 					content: '';
@@ -1389,11 +1425,12 @@ b, strong {
 					background-repeat: no-repeat;
 					background-position: center;
 					cursor: pointer;
-					display: none;
+					opacity: 0;
+					transition: all 0.3s;
 				}
 				&:hover {
 					&:before {
-						display: block;
+						opacity: 1;
 					}
 				}
 			}
@@ -1481,9 +1518,42 @@ b, strong {
 				font-size: 14px;
 			}
 	    }
+	    &Slider {
+	    	&__text {
+				font-size: 20px;
+	    	}
+	    }
 	}
 	@media (max-width: 767px) {
-	    
+		&__date {
+			&:first-child {
+				margin-right: 0;
+			}
+		}
+	    &Slider {
+	    	&__text {
+	    		padding: 15px;
+				font-size: 15px;
+	    	}
+	    	.slick {
+	    		&-arrow {
+	    			width: 30px;
+	    			&:before {
+	    				background-size: 20px;
+	    			}
+	    		}
+	    		&-next {
+	    			&:before {
+	    				right: 10px;
+	    			}
+	    		}
+	    		&-prev {
+	    			&:before {
+	    				left: 10px;
+	    			}
+	    		}
+	    	}
+	    }
 	}
 }
 
