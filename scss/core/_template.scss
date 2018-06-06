@@ -25,17 +25,5 @@
 	@include columns(4, 20px, 300px);
 }
 
-/* Footer
- ----------------------------------------------------------------------------- */
-.footer {
-	position: relative;
-	height: $footer_height;
-	background: #BFF08E;
-	@extend %clear_all;
-	.container_center {
-		padding-top: 10px;
-		padding-bottom: 10px;
-	}
-}
 
 

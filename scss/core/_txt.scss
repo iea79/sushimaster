@@ -1,0 +1,7 @@
+.txt {
+	@each $status_el, $color in $el_colors {
+		&__#{$status_el} {
+			color: $color;
+		}
+	}
+}

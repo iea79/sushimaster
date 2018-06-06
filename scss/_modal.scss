@@ -11,47 +11,64 @@
     z-index: 1050;
     -webkit-overflow-scrolling: touch;
     outline: 0;
+    text-align: center;
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        height: 100vh;
+        width: 0;
+    }
     &-open {
         overflow: hidden;
     }
     &-close {
         position: absolute;
-        width: 21px;
-        height: 21px;
-        right: 23px;
-        top: 23px;
-        // background: image-url('close.svg') no-repeat center center;
-        &:before,&:after {
-            content: '';
-            position: absolute;
-            display: block;
-            width: 20px;
-            border-top: 1px solid $main_color;
-            top: 10px;
-        }
-        &:before {
-            transform: rotate(45deg);
-        }
-        &:after {
-            transform: rotate(-45deg);
-        }
-        &:hover {
-            opacity: .8;
+        width: 33px;
+        height: 33px;
+        right: -30px;
+        top: -30px;
+        background: url('../img/close.svg') no-repeat center center;
+        // &:before,&:after {
+        //     content: '';
+        //     position: absolute;
+        //     display: block;
+        //     width: 20px;
+        //     border-top: 1px solid $main_color;
+        //     top: 10px;
+        // }
+        // &:before {
+        //     transform: rotate(45deg);
+        // }
+        // &:after {
+        //     transform: rotate(-45deg);
+        // }
+        // &:hover {
+        //     opacity: .8;
+        // }
+        @media (max-width: 991px) {
+            right: 0px;
+            top: -35px;
         }
     }
     &.fade .modal-dialog {
         transform: translate(0, -25%);
         transition: transform 0.3s ease-out;
+        margin-top: 0;
     }
     &.in .modal-dialog {
         transform: translate(0, 0);
         position: relative;
+        margin-top: 38px;
     }
     &-dialog {
         position: relative;
         width: auto;
         margin: 10px auto;
-        max-width: 690px;
+        max-width: 590px;
+        width: 98%;
+        display: inline-block;
+        vertical-align: middle;
     }
 
     &-content {
@@ -60,10 +77,23 @@
         border: 1px solid #999;
         border: 1px solid rgba(0,0,0,.2);
         border-radius: 6px;
-        box-shadow: 0 3px 9px rgba(0,0,0,.5);
+        box-shadow: 0 7px 49px rgba(5, 4, 3, 0.56);
         background-clip: padding-box;
         outline: 0;
-        padding: 46px 53px;
+        padding: 3px;
+        @media (max-width: 767px) {
+            background-color: transparent;
+            box-shadow: none;
+            border: none;
+            .form {
+                border: none;
+                background-color: transparent;
+                color: #fff;
+                a {
+                    color: #fff;
+                }
+            }
+        }
     }
 
     &-backdrop {
@@ -82,6 +112,12 @@
         &.in {
             opacity: .5;
             filter: alpha(opacity=50);
+        }
+        @media (max-width: 767px) {
+            &.in {
+                opacity: 0.8;
+                filter: alpha(opacity=80);
+            }
         }
     }
 
@@ -123,8 +159,62 @@
             margin-left: 0;
         }
     }
-
+    &__img {
+        .modal {
+            &-dialog {
+                max-width: 900px;
+                // @extend %clear_a;
+            }
+            &-content {
+                @extend %clear_a;
+                .form {
+                    @extend %clear_a;
+                }
+            }
+            &__left {
+                // float: left;
+                width: 50%;
+                position: relative;
+                min-height: 1px;
+                img {
+                    position: absolute;
+                    right: 15px;
+                    max-width: 150%;
+                    top: -30px;
+                }
+                .fullPresentation__img {
+                    top: 10px;
+                    max-width: 160%;
+                }
+                .franch__img {
+                    max-width: 180%;
+                }
+            }
+            &__right {
+                float: right;
+                width: 50%;
+            }
+            @media (max-width: 767px) {
+                &-dialog {
+                    max-width: 590px;
+                }
+                &__left {
+                    display: none;
+                }
+                &__right {
+                    float: none;
+                    width: auto;
+                }
+            }
+        }
+    }
 }
 
-
+.privacyModal {
+    .modal {
+        &-dialog {
+            max-width: 800px;
+        }
+    }
+}
 

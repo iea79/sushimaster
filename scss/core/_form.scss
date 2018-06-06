@@ -9,31 +9,30 @@ input[type=tel],
 input[type=number],
 input[type=datetime], 
 textarea {
-	background-color: $input_bg_color;
+	background-color: #fff;
 	border: 1px solid $input_border_color;
-	padding: 6px 15px;
+	padding: 29px;
 	outline: none;
-	font-size: 16px;
-	font-weight: 300;
+	font-size: 17px;
+	font-weight: normal;
 	font-family: $main_font_family;
-	border-radius: 5px;
+	border-radius: 9px;
 	transition: all .3s;
-	&:hover {
-		border: 1px solid $input_hover_border_color;
+    background-color: #fff;
+	&:hover,&:focus {
+		border: 1px solid #000000;
 		background-color: $input_hover_bg_color;;
 	}
-	&:focus {
-		border: 1px solid $input_focus_border_color;
-		background-color: $input_focus_bg_color;;
-	}
-	&.input_error {
-		background-color: #fff0f0;
-		border: 1px solid red;
-	}
-	// Placeholder for input +++++++++++++++
-	@include placeholder {
-		color: $input_placeholder_color;
-	}
+	&.invalid {
+		border: 1px solid #ff0000;
+    	@include placeholder {
+    		// color: #ff0000;
+    	}
+    }
+    // Placeholder for input +++++++++++++++
+    @include placeholder {
+        color: rgba($color_info, .67);
+    }
 }
 
 input[type=search]::-webkit-search-cancel-button,
@@ -62,13 +61,15 @@ input[type=radio] {
     display: inline-block;
     height: 14px;
     width: 14px;
-    border: 1px solid #aaa;
+    // border: 1px solid #aaa;
     overflow: hidden;
     margin-top: -4px;
+    border-radius: 3px;
     vertical-align: middle;
     -webkit-appearance: none;
     outline: 0;
     background: 0 0;
+    background-color: #e6e6e6;
     text-align: center;
     position: relative;
 }
@@ -98,12 +99,16 @@ input[type=radio]:checked:before {
 
 input[type=checkbox]:checked:before,
 input[type=checkbox]:indeterminate:before {
-    content: "\2714";
-    font-size: 12px;
+    content: url(../img/check.svg);
+    // font-size: 12px;
     -webkit-font-smoothing: antialiased;
     text-align: center;
-    line-height: 13px;
-    color: #000;
+    // line-height: 13px;
+    display: inline-block;
+    right: -2px;
+    top: -2px;
+    position: relative;
+    // color: #000;
 }
 
 input[type=checkbox]:indeterminate:before {
@@ -125,46 +130,3 @@ input[type=checkbox]:disabled:indeterminate:before {
 }
 
 
-// Style for button and pseudo button for input and link
-.btn {
-	color: $btn_default_text_color;
-	font-family: $main_font_family;
-	font-size: 16px;
-	font-weight: 300;
-	padding: 5px 15px 7px;
-	border: none;
-	outline: none;
-	text-decoration: none;
-	display: inline-block;
-	background-color: $btn_default_bg_color;
-	text-align: center;
-	max-width: 100%;
-	cursor: pointer;
-	border-radius: 5px;
-	transition: all 0.3s;
-	text-decoration: none;
-	&:hover {
-		background-color: #fff;
-		color: #000;
-		text-decoration: none;
-	}
-	&:focus,&:active {
-		background-color: transparentize(#fff, .2);
-		color: #000;
-	}
-	@each $status_el, $color_bg in $el_colors {
-		&__#{$status_el} {
-			background-color: $color_bg;
-			border-color: $color_bg;
-			color: $btn_contrast_text_color;
-			&:hover {
-				background-color: darken($color_bg, 7%);
-				color: $btn_contrast_text_color;
-			}
-			&:focus,&:active {
-				background-color: darken($color_bg, 10%);
-				color: $btn_contrast_text_color;
-			}
-		}
-	}	
-}
