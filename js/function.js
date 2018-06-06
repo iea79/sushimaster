@@ -272,15 +272,15 @@ function calaculate() {
         currencyTemplate = '<span class="txt__danger"> '+currency+'</span>';
         // setCurrencyInput();
         if (currency == "P") {
-            sliderInit(10000000, 60000, 60000000, 1000);
+            sliderInit(2500000, 60000, 10000000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
         }
         if (currency == "$") {
-            sliderInit(100000, 1000, 1000000, 100);
+            sliderInit(3000, 1000, 16000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
         }
         if (currency == "€") {
-            sliderInit(100000, 1000, 1000000, 100);
+            sliderInit(3000, 1000, 16000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
         }
         // console.log(String(sliderValue))
@@ -343,7 +343,7 @@ function calaculate() {
         setCurrencyInput();
     }
 
-    sliderInit(10000000, 60000, 60000000, 1000);
+    sliderInit(2500000, 60000, 10000000, 1000);
 
     inputCurrent.priceFormat();
 
