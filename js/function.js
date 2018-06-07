@@ -24,35 +24,29 @@ function isTouch() { return TempApp.touchDevice(); } // for touch device
 
 $(document).ready(function() {
 
-    // Хак для клика по ссылке на iOS
     if (isIOS()) {
         $(function(){$(document).on('touchend', 'a', $.noop)});
     }
 
 	if ('flex' in document.documentElement.style) {
-		// Хак для UCBrowser
 		if (navigator.userAgent.search(/UCBrowser/) > -1) {
 			document.documentElement.setAttribute('data-browser', 'not-flex');
 		} else {		
-		    // Flexbox-совместимый браузер.
 			document.documentElement.setAttribute('data-browser', 'flexible');
 		}
 	} else {
-	    // Браузер без поддержки Flexbox, в том числе IE 9/10.
 		document.documentElement.setAttribute('data-browser', 'not-flex');
 	}
 
-	// First screen full height
 	function setHeiHeight() {
 	    $('.full__height').css({
 	        minHeight: $(window).height() + 'px'
 	    });
 	}
-	setHeiHeight(); // устанавливаем высоту окна при первой загрузке страницы
-	$(window).resize( setHeiHeight ); // обновляем при изменении размеров окна
+	setHeiHeight();
+	$(window).resize( setHeiHeight );
 
 
-	// Reset link whte attribute href="#"
 	$('[href*="#"]').click(function(event) {
 		event.preventDefault();
 	});
@@ -66,34 +60,12 @@ $(document).ready(function() {
 		return false;
 	});
 
-	// Stiky menu // Липкое меню. При прокрутке к элементу #header добавляется класс .stiky который и стилизуем
-    // $(document).ready(function(){
-    //     var HeaderTop = $('#header').offset().top;
-        
-    //     $(window).scroll(function(){
-    //             if( $(window).scrollTop() > HeaderTop ) {
-    //                     $('#header').addClass('stiky');
-    //             } else {
-    //                     $('#header').removeClass('stiky');
-    //             }
-    //     });
-    // });
-   	// setGridMatch($('[data-grid-match] .grid__item'));
     $('.exampleSlider').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: true,
         dots: false,
-        // fade: true,
-        adaptiveHeight: true,
-        draggable: false,
-        asNavFor: '.exampleThumbs',
-        responsive: [{
-            breakpoint: 768,
-            settings: {
-                draggable: true
-            }
-        }]
+        asNavFor: '.exampleThumbs'
     });
     $('.exampleThumbs').slick({
         slidesToShow: 9,
@@ -102,15 +74,11 @@ $(document).ready(function() {
         arrows: false,
         dots: false,
         centerMode: false,
-        // infinite: true,
         focusOnSelect: true,
         responsive: [{
             breakpoint: 768,
             settings: {
                 slidesToShow: 3,
-                // centerMode: true,
-                // vertical: false,
-                // variableWidth: true
             }
         }]
     });
@@ -195,7 +163,6 @@ $(window).resize(function(event) {
 });
 
 function checkOnResize() {
-   	// setGridMatch($('[data-grid-match] .grid__item'));
    	gridMatch();
     chartAnim();
 }
@@ -244,10 +211,6 @@ function calaculate() {
     var capitalisation300Euro = capitalisation300Dollar*exchangeDollar/exchangeEuro;
     var capitalisation300Rub = capitalisation300Dollar*exchangeDollar;
 
-    // console.log(ipoRub)
-    // console.log(ipoDollar)
-    // console.log(ipoEuro)
-
 	// Текущая валюта
 	var currency = $('.calculate__currencyItem.active').data('currency');
     var currencyTemplate = '<span class="txt__danger"> '+currency+'</span>';
@@ -270,7 +233,6 @@ function calaculate() {
         $(this).addClass('active');
         currency = $(this).data('currency');
         currencyTemplate = '<span class="txt__danger"> '+currency+'</span>';
-        // setCurrencyInput();
         if (currency == "P") {
             sliderInit(2500000, 60000, 10000000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
@@ -283,19 +245,14 @@ function calaculate() {
             sliderInit(3000, 1000, 16000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
         }
-        // console.log(String(sliderValue))
-        // currencyValue = String(sliderValue);
         setInvestedAmount(thousandSeparator(sliderValue));
         setCurrencyInput();
-        // setCurrency();
 	});
 
     inputCurrent.on('keyup', function() {
         var keyupVal = $(this).val().replace(/\s+/g,'');
         var keyupValClean = keyupVal.replace(/[.,\/#!₽$%\^&\*;:{}=\-_`~()]/g,"");
-        console.log(keyupValClean);
-        console.log(sliderMin);
-        console.log(sliderMax);
+
         if (keyupValClean >= sliderMin && keyupValClean <= sliderMax) {
             sliderPrice.slider( 'value', keyupValClean);
             inputCurrent.val( thousandSeparator(sliderPrice.slider( 'value' )));
@@ -314,7 +271,6 @@ function calaculate() {
 
     });
 
-    // console.log(currencyValue);
 
     function sliderInit(valCurrent, minCurrent, maxCurrent, stepCurrent) {
         sliderValue = valCurrent;
@@ -408,7 +364,6 @@ function calaculate() {
     // Порог входа
     function setEntryThreshold(first, second, last) {
         entryThreshold.each(function() {
-        // console.log($(this).data('edition'))           
             if ($(this).data('edition') == '1') {
                 $(this).html(first+currencyTemplate);
             }
@@ -423,7 +378,6 @@ function calaculate() {
     // Задаем инвестируемую сумму
     function setInvestedAmount(summ) {
         investedAmount.each(function() {
-        // console.log($(this).data('edition'))           
             if ($(this).data('edition')) {
                 $(this).html(summ+currencyTemplate);
             }
@@ -532,22 +486,18 @@ function formSubmit() {
         var url = form.attr('action');
         var form_data = form.serialize();
         var field = form.find('[required]');
-        // console.log(form_data);
 
         empty = 0;
 
         field.each(function() {
             if ($(this).val() == "") {
                 $(this).addClass('invalid');
-                // return false;
                 empty++;
             } else {
                 $(this).removeClass('invalid');
                 $(this).addClass('valid');
             }  
         });
-
-        // console.log(empty);
 
         if (empty > 0) {
             return false;
@@ -585,7 +535,6 @@ function formSubmit() {
         var btn = $(this).closest('.form').find('.btn');
         if ($(this).prop('checked')) {
             btn.removeAttr('disabled');
-            // console.log('checked');
         } else {
             btn.attr('disabled', true);
         }

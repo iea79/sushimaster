@@ -4089,7 +4089,6 @@ b, strong {
       margin-left: -9px;
       margin-right: -9px; }
       .exampleSlider .slick-list:before, .exampleSlider .slick-list:after {
-        content: '';
         position: absolute;
         width: 9px;
         top: 0;
