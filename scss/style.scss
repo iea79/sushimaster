@@ -3399,6 +3399,24 @@ b, strong {
 	&__list {
 		counter-reset: faqList;
 	}
+	&__toggler {
+		// content: url(../img/arrow-faq.svg);
+		width: 30px;
+		height: 30px;
+		background: url('../img/arrow-faq.svg') no-repeat center center;
+		background-size: 10px;
+		border-radius: 15px;
+		display: block;
+		text-align: center;
+		line-height: 26px;
+		position: absolute;
+		right: 0;
+		top: 50%;
+		margin-top: -27px;
+		border: 1px solid #dadada;
+		transition: all .3s;
+		cursor: pointer;
+	}
 	&__item {
 		position: relative;
 		padding-left: 55px;
@@ -3417,22 +3435,6 @@ b, strong {
 			font-size: 13px;
 			border: 1px solid #dadada;
 		}
-		&:after {
-			content: url(../img/arrow-faq.svg);
-			width: 30px;
-			height: 30px;
-			border-radius: 15px;
-			display: block;
-			text-align: center;
-			line-height: 26px;
-			position: absolute;
-			right: 0;
-			top: 50%;
-			margin-top: -27px;
-			border: 1px solid #dadada;
-			transition: all .3s;
-			cursor: pointer;
-		}
 		&:hover {
 			&:after {
 				// border: 1px solid $color_danger;
@@ -3440,7 +3442,7 @@ b, strong {
 			}
 		}
 		&.open {
-			&:after {
+			.faqs__toggler {
 				border: 1px solid $color_danger;
 				background-color: $color_danger;
 			}

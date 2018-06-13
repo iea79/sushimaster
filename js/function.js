@@ -99,7 +99,7 @@ $(document).ready(function() {
     	},
     });
 
-    $('.faqs__toggle').on('click', function() {
+    $('.faqs__toggle, .faqs__toggler').on('click', function() {
     	var item = $(this).closest('.faqs__item');
 
     	if (item.hasClass('open')) {

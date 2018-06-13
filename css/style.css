@@ -5408,6 +5408,24 @@ b, strong {
     margin-bottom: 82px; }
   .faqs__list {
     counter-reset: faqList; }
+  .faqs__toggler {
+    width: 30px;
+    height: 30px;
+    background: url("../img/arrow-faq.svg") no-repeat center center;
+    background-size: 10px;
+    border-radius: 15px;
+    display: block;
+    text-align: center;
+    line-height: 26px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    margin-top: -27px;
+    border: 1px solid #dadada;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+    transition: all .3s;
+    cursor: pointer; }
   .faqs__item {
     position: relative;
     padding-left: 55px;
@@ -5425,24 +5443,7 @@ b, strong {
       font-family: "Museo Sans Cyrl -500";
       font-size: 13px;
       border: 1px solid #dadada; }
-    .faqs__item:after {
-      content: url(../img/arrow-faq.svg);
-      width: 30px;
-      height: 30px;
-      border-radius: 15px;
-      display: block;
-      text-align: center;
-      line-height: 26px;
-      position: absolute;
-      right: 0;
-      top: 50%;
-      margin-top: -27px;
-      border: 1px solid #dadada;
-      -webkit-transition: all .3s;
-      -o-transition: all .3s;
-      transition: all .3s;
-      cursor: pointer; }
-    .faqs__item.open:after {
+    .faqs__item.open .faqs__toggler {
       border: 1px solid #e31e24;
       background-color: #e31e24; }
     .faqs__item.open .faqs__text {
