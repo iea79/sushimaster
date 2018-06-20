@@ -5551,7 +5551,7 @@ b, strong {
 
 .footer {
   position: relative;
-  height: auto;
+  min-height: auto;
   font-size: 15px; }
   .footer .container_center {
     padding-top: 52px;
@@ -5689,5 +5689,9 @@ b, strong {
 
 .visible {
   opacity: 1; }
+
+.successMessage {
+  text-align: center;
+  padding: 8em 0; }
 
 /*# sourceMappingURL=style.css.map */

@@ -39,8 +39,8 @@ $(document).ready(function() {
 	}
 
 	function setHeiHeight() {
-	    $('.full__height').css({
-	        minHeight: $(window).height() + 'px'
+	    $('.js-full__height').css({
+	        minHeight: $(window).height() - $('.header').innerHeight()
 	    });
 	}
 	setHeiHeight();
@@ -148,7 +148,7 @@ $(document).ready(function() {
         }
     })
 
-    $('[name=tel]').inputmask("+9(999)999 99 99",{ showMaskOnHover: false });
+    $('[name=tel]').inputmask("+",{ showMaskOnHover: false });
 
     formSubmit();
 });
@@ -223,7 +223,9 @@ function calaculate() {
     var investedAmount = $('#invested_amount td');
 
     var sliderValue;
+    var currentFieldValue;
     var sliderMin;
+    var sliderOtherMin = 600000;
     var sliderMax;
     var sliderStep;
 
@@ -234,15 +236,18 @@ function calaculate() {
         currency = $(this).data('currency');
         currencyTemplate = '<span class="txt__danger"> '+currency+'</span>';
         if (currency == "P") {
+            sliderOtherMin = 600000;
             sliderInit(2500000, 60000, 10000000, 100);
-            inputCurrent.val(thousandSeparator(sliderValue))
+            inputCurrent.val(thousandSeparator(sliderValue));
         }
         if (currency == "$") {
-            sliderInit(3000, 1000, 16000, 100);
+            sliderOtherMin = 10000;
+            sliderInit(13000, 1000, 200000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
         }
         if (currency == "€") {
-            sliderInit(3000, 1000, 16000, 100);
+            sliderOtherMin = 10000;
+            sliderInit(13000, 1000, 200000, 100);
             inputCurrent.val(thousandSeparator(sliderValue))
         }
         setInvestedAmount(thousandSeparator(sliderValue));
@@ -252,6 +257,8 @@ function calaculate() {
     inputCurrent.on('keyup', function() {
         var keyupVal = $(this).val().replace(/\s+/g,'');
         var keyupValClean = keyupVal.replace(/[.,\/#!₽$%\^&\*;:{}=\-_`~()]/g,"");
+
+        currentFieldValue = keyupValClean;
 
         if (keyupValClean >= sliderMin && keyupValClean <= sliderMax) {
             sliderPrice.slider( 'value', keyupValClean);
@@ -290,13 +297,18 @@ function calaculate() {
                     currencyValue = thousandSeparator(ui.value);
                     setInvestedAmount(currencyValue);
                     setCurrencyInput();
+                    currentFieldValue = ui.value;
                 }
             }
         });
         inputCurrent.val( thousandSeparator(valCurrent));
         currencyValue = thousandSeparator(valCurrent);
+        currentFieldValue = Number(currencyValue.replace(/\s+/g,''));
         setInvestedAmount(currencyValue);
         setCurrencyInput();
+
+        return sliderMin;
+        return currentFieldValue;
     }
 
     sliderInit(2500000, 60000, 10000000, 1000);
@@ -308,6 +320,7 @@ function calaculate() {
     // Выводим значения в таблицу
     function setCurrencyInput() {
         if (currency == "P") {
+            sliderOtherMin = 600000;
             inputCurrent.removeClass('dollar euro'); 
             inputCurrent.addClass('ru');
             setEntryThreshold('600 000', '600 000', '60 000');
@@ -322,9 +335,10 @@ function calaculate() {
             setShareInCompany(firstPercent, secondPercent);
             setMonthlyIncome(0.05, 0.17, currencyValueClean);
             setCostForecast(firstPercent*capitalisationIpoRub, secondPercent*capitalisationIpoRub, currencyValueClean+(profitMonthlySecond*36));
-            setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoRub);
+            // setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoRub);
         }
         if (currency == "$") {
+            sliderOtherMin = 10000;
             inputCurrent.removeClass('ru euro'); 
             inputCurrent.addClass('dollar');
             setEntryThreshold('10 000', '10 000', '1 000');
@@ -339,9 +353,10 @@ function calaculate() {
             setShareInCompany(firstPercent, secondPercent);
             setCostForecast(firstPercent*capitalisationIpoDollar, secondPercent*capitalisationIpoDollar, currencyValueClean+(profitMonthlySecond*36))
             setMonthlyIncome(0.05, 0.07, currencyValueClean);
-            setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoDollar);
+            // setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoDollar);
         }
         if (currency == "€") {
+            sliderOtherMin = 10000;
             inputCurrent.removeClass('dollar ru'); 
             inputCurrent.addClass('euro'); 
             setEntryThreshold('10 000', '10 000', '1 000');
@@ -356,7 +371,7 @@ function calaculate() {
             setShareInCompany(firstPercent, secondPercent);
             setCostForecast(firstPercent*capitalisationIpoEuro, secondPercent*capitalisationIpoEuro, currencyValueClean+(profitMonthlySecond*36))
             setMonthlyIncome(0.05, 0.07, currencyValueClean);
-            setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoEuro);
+            // setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoEuro);
         }
         setInvestedAmount(currencyValue);
     }
@@ -387,10 +402,18 @@ function calaculate() {
     function setShareInCompany(first, second) {
         $('#share_in_company [data-edition]').each(function() {
             if ($(this).data('edition') == '1') {
-                $(this).html(first + percentTemplate);
+                if (currentFieldValue >= sliderOtherMin) {
+                    $(this).html(first + percentTemplate);
+                } else {
+                    $(this).html('-')
+                }
             }
             if ($(this).data('edition') == '2') {
-                $(this).html(second + percentTemplate);
+                if (currentFieldValue >= sliderOtherMin) {
+                    $(this).html(second + percentTemplate);
+                } else {
+                    $(this).html('-')
+                }
             }
         });
     }
@@ -398,13 +421,25 @@ function calaculate() {
     function setCostForecast(first, second, last) {
         $('#cost_forecast [data-edition]').each(function() {
             if ($(this).data('edition') == '1') {
-                $(this).html(thousandSeparator((first/100).toFixed()) + currencyTemplate);
+                if (currentFieldValue >= sliderOtherMin) {
+                    $(this).html(thousandSeparator((first/100).toFixed()) + currencyTemplate);
+                } else {
+                    $(this).html('-')
+                }
             }
             if ($(this).data('edition') == '2') {
-                $(this).html(thousandSeparator((second/100).toFixed()) + currencyTemplate);
+                if (currentFieldValue >= sliderOtherMin) {
+                    $(this).html(thousandSeparator((second/100).toFixed()) + currencyTemplate);
+                } else {
+                    $(this).html('-')
+                }
             }
             if ($(this).data('edition') == '3') {
-                $(this).html(thousandSeparator(last) + currencyTemplate);
+                if (currentFieldValue >= sliderMin) {
+                    $(this).html(thousandSeparator(last) + currencyTemplate);
+                } else {
+                    $(this).html('-')
+                }
             }
         });
     }
@@ -412,37 +447,45 @@ function calaculate() {
     function setMonthlyIncome(percentFirst, percentSecond, current) {
         $('#monthly_income [data-edition]').each(function() {
             if ($(this).data('edition') == '1') {
-                $(this).html(thousandSeparator((current*percentFirst/12).toFixed()) + currencyTemplate);
-                profitMonthlyFirst = Number(current*percentFirst/12).toFixed();
+                if (currentFieldValue >= sliderOtherMin) {
+                    $(this).html(thousandSeparator((current*percentFirst/12).toFixed()) + currencyTemplate);
+                    profitMonthlyFirst = Number(current*percentFirst/12).toFixed();
+                } else {
+                    $(this).html('-')
+                }
                 return profitMonthlyFirst;
             }
             if ($(this).data('edition') == '2') {
-                $(this).html(thousandSeparator((current*percentSecond/12).toFixed()) + currencyTemplate);
-                profitMonthlySecond = Number(current*percentSecond/12).toFixed();
+                if (currentFieldValue >= sliderMin) {
+                    $(this).html(thousandSeparator((current*percentSecond/12).toFixed()) + currencyTemplate);
+                    profitMonthlySecond = Number(current*percentSecond/12).toFixed();
+                } else {
+                    $(this).html('-')
+                }
                 return profitMonthlySecond;
             }
         });
     }
     // Доходность % годовых
     // setProfitableness(firstPercent, secondPercent, currencyValueClean, capitalisationIpoRub);
-    function setProfitableness(percentFirst, percentSecond, current, capitalisation) {
-        $('#profitableness td').each(function() {
-            if ($(this).data('edition') == '1') {
-                $(this).html('<br>'
-                    + ((percentFirst*capitalisation)/current/3).toFixed() + percentTemplate + '<br>'
-                    + ((percentFirst*capitalisation)/current/4).toFixed() + percentTemplate + '<br>'
-                    + ((percentFirst*capitalisation)/current/5).toFixed() + percentTemplate
-                );
-            }
-            if ($(this).data('edition') == '2') {
-                $(this).html('<br>'
-                    + (((percentSecond*capitalisation)+Number(profitMonthlyFirst)*36)/current/3+6).toFixed() + percentTemplate + '<br>'
-                    + (((percentSecond*capitalisation)+Number(profitMonthlyFirst)*48)/current/4+6).toFixed() + percentTemplate + '<br>'
-                    + (((percentSecond*capitalisation)+Number(profitMonthlyFirst)*60)/current/5+6).toFixed() + percentTemplate
-                );
-            }
-        });
-    }
+    // function setProfitableness(percentFirst, percentSecond, current, capitalisation) {
+    //     $('#profitableness td').each(function() {
+    //         // if ($(this).data('edition') == '1') {
+    //         //     $(this).html('<br>'
+    //         //         + ((percentFirst*capitalisation)/current/3).toFixed() + percentTemplate + '<br>'
+    //         //         + ((percentFirst*capitalisation)/current/4).toFixed() + percentTemplate + '<br>'
+    //         //         + ((percentFirst*capitalisation)/current/5).toFixed() + percentTemplate
+    //         //     );
+    //         // }
+    //         // if ($(this).data('edition') == '2') {
+    //         //     $(this).html('<br>'
+    //         //         + (((percentSecond*capitalisation)+Number(profitMonthlyFirst)*36)/current/3+6).toFixed() + percentTemplate + '<br>'
+    //         //         + (((percentSecond*capitalisation)+Number(profitMonthlyFirst)*48)/current/4+6).toFixed() + percentTemplate + '<br>'
+    //         //         + (((percentSecond*capitalisation)+Number(profitMonthlyFirst)*60)/current/5+6).toFixed() + percentTemplate
+    //         //     );
+    //         // }
+    //     });
+    // }
 }
 
 
@@ -510,14 +553,14 @@ function formSubmit() {
                 success: function (response) {
                     // $('#success').modal('show');
                     // console.log('success');
-                    console.log(response);
+                    // console.log(response);
                     // console.log(data);
-                    // document.location.href = "success.html";
+                    document.location.href = "success.html";
                 },
                 error: function (response) {
                     // $('#success').modal('show');
                     // console.log('error');
-                    console.log(response);
+                    // console.log(response);
                 }
             });
         }

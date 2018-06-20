@@ -3611,7 +3611,7 @@ b, strong {
 
 .footer {
 	position: relative;
-	height: $footer_height;
+	min-height: $footer_height;
 	font-size: 15px;
 	@extend %clear_a;
 	.container_center {
@@ -3812,3 +3812,7 @@ b, strong {
 	opacity: 1;
 }
 
+.successMessage {
+	text-align: center;
+	padding: 8em 0;
+}
